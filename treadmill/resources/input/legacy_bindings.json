@@ -1,0 +1,20 @@
+{
+   "bindings" : {
+      "/actions/legacy" : {
+         "sources" : [
+            {
+               "inputs" : {                  
+                  "position" : {
+                     "output" : "/actions/legacy/in/left_axis0_value"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/treadmill/input/joystick"
+            }
+         ]
+      }
+   },
+   "controller_type" : "treadmill_controller",
+   "description" : "",
+   "name" : "Default bindings for Treadmill"
+}

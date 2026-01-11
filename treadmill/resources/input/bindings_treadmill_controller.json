@@ -1,0 +1,20 @@
+{
+  "controller_type": "treadmill_controller",
+  "name": "Default bindings for treadmill",
+  "description": "Treadmill X/Y movement",
+  "bindings": {
+    "/actions/default": {
+      "sources": [
+        {
+          "mode": "joystick",
+          "path": "/user/treadmill/joystick",
+          "inputs": {
+            "position": {
+              "output": "/actions/default/in/position"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

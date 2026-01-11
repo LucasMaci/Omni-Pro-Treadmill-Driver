@@ -1,0 +1,27 @@
+{
+  "jsonid": "input_profile",
+  "controller_type": "treadmill_controller",
+  "device_class": "TrackedDeviceClass_Controller",
+  "legacy_binding" : "{treadmill}/input/legacy_bindings.json",
+  "resource_root": "treadmill",
+  "input_bindingui_mode": "single_device",
+  "should_show_binding_errors": true,
+  "input_source": {
+    "/input/joystick": {
+      "type": "joystick",
+      "click": false,
+      "touch": false,
+      "binding_image_point": [0,0]
+    }      
+  },
+  "default_bindings": [
+	{
+      "app_key": "steam.app.611670",
+      "binding_url": "{treadmill}/input/steam.app.611670.json"
+    },
+    {
+      "app_key": "system.generated.default",
+      "binding_url": "{treadmill}/input/bindings_treadmill_controller.json"
+    }
+  ]
+}

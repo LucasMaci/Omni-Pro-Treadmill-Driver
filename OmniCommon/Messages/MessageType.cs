@@ -1,0 +1,67 @@
+﻿// Decompiled with JetBrains decompiler
+// Type: OmniCommon.Messages.MessageType
+// Assembly: OmniCommon, Version=1.1.4.0, Culture=neutral, PublicKeyToken=null
+// MVID: 528622BE-7E82-48CF-9835-746D3CF8734A
+// Assembly location: C:\Program Files (x86)\Virtuix\Omni Connect\OmniCommon.dll
+
+#nullable disable
+namespace OmniCommon.Messages;
+
+public enum MessageType
+{
+  StopThread,
+  OmniVersionInfoMessage,
+  OmniConnectedMessage,
+  OmniDisconnectedMessage,
+  OmniStartSerialPortMessage,
+  OmniSerialPortFailedMessage,
+  OmniSerialPortOpenedMessage,
+  OmniToggleLEDMessage,
+  OmniChangeGamepadModeMessage,
+  OmniGetGamepadModeMessage,
+  OmniBluetoothMessage,
+  OmniGetRadioVersionInfoMessage,
+  OmniPodConnectedMessage,
+  OmniPodDisconnectedMessage,
+  OmniPodStartSerialPortMessage,
+  OmniPodSerialPortFailedMessage,
+  OmniPodSerialPortOpenedMessage,
+  OmniBoardInfoMessage,
+  GenericMessage,
+  OmniGetRaftConfigurationMessage,
+  OmniSetRaftConfigurationMessage,
+  OmniGetRaftAddressMessage,
+  OmniSetRaftAddressMessage,
+  OmniPodBatteryLifeMessage,
+  OmniResetRadioMessage,
+  OmniStartBootloaderMessage,
+  OmniUpgradeRadioMessage,
+  OmniFirmwareDataMessage,
+  OmniDisableBootloaderModeMessage,
+  OmniCheckUSBMessage,
+  OmniSetMotionDataMessage,
+  OmniSetRawDataMessage,
+  OmniMotionDataMessage,
+  OmniRawDataMessage,
+  OmniMotionAndRawDataMessage,
+  OmniResetTivaMessage,
+  OmniFCCTestEnableMessage,
+  OmniFCCTestModeMessage,
+  OmniGetRSSIMessage,
+  OmniPodGetSerialNumberMessage,
+  OmniGetSerialNumberMessage,
+  OmniSetSerialNumberMessage,
+  OmniGetAggSerialNumberMessage,
+  OmniSetAggSerialNumberMessage,
+  OmniGetSensitivityMessage,
+  OmniSetSensitivityMessage,
+  OmniDisableMovement,
+  OmniEnableChallenge1,
+  OmniEnableChallenge2,
+  OmniSetKey1,
+  OmniSetKey2,
+  OmniGetKeyState,
+  OmniPodPerformSensorCalibration,
+  OmniPodHelloMessage,
+  Unknown,
+}
