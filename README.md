@@ -48,6 +48,63 @@ The OmniBridge.dll is needed by the SteamVR driver, but currently is not autodet
 }
 ```
 
+### Configuration (in-Game movement)
+
+In SteamVR you need to bind the treadmill movement to the game, because this is a custom solution and no default will handle that for you. Currently tested for SkyrimVR a "legacy-binding-game". That means it is the old way how SteamVR bounds the treadmill to the correct action in the game.
+
+- Open the "controller bindings" (sorry for the german pictures, but I have no idea how to switch it to english)
+  - <img width="799" height="629" alt="image" src="https://github.com/user-attachments/assets/196c0ac2-ba49-4e8d-a93e-5b7c729a3c52" />
+- Select your game and click on "different binding"
+  - <img width="800" height="631" alt="image" src="https://github.com/user-attachments/assets/f9b448b2-2ecc-48d2-9de4-cd5608f1668b" />
+  - <img width="796" height="629" alt="image" src="https://github.com/user-attachments/assets/0d6d9121-2432-45f1-a456-67cc101889ee" />
+- Click on what ever is selected in the circled section to switch to the treadmill caleld "treadmill_controller"
+  - <img width="1480" height="853" alt="image" src="https://github.com/user-attachments/assets/faaef12b-0f04-4da8-be58-3af6d679ff2e" />
+  - <img width="1484" height="871" alt="image" src="https://github.com/user-attachments/assets/5c93ddba-f68f-4649-a95f-6c0e5ff6d310" />
+- Now click "edit" to change or add binding
+  - <img width="1486" height="692" alt="image" src="https://github.com/user-attachments/assets/740cbcb4-206d-4020-a169-4b4974017987" />
+- If nothing is pre-set click on the small plus icon and add "joystick". The position will be blank, so click on it and choose **left_axis0_value** . th
+  - <img width="1483" height="852" alt="image" src="https://github.com/user-attachments/assets/6d50a661-9cf2-4053-8d8d-0c38f8159a5d" />
+  - <img width="1483" height="851" alt="image" src="https://github.com/user-attachments/assets/e0f1dbe9-e56c-44f4-b87a-74a8a78510b7" />
+- **This is important** After this, go to the additional settings and check "forward binding to the left hand" and also "forward binding to the right hand". You need it, because else the normal controller migth be ignored completely
+  -  <img width="1484" height="671" alt="image" src="https://github.com/user-attachments/assets/fd0d9bcb-e73b-4f88-91a5-3a12caf9837d" />
+
+## Troubleshooting
+
+### If you dont't see the treadmill icon
+
+You should see the "c" icon, if the treadmill was installed correctly.
+
+<img width="315" height="153" alt="image" src="https://github.com/user-attachments/assets/a1777395-43d4-47de-a849-f717d861223c" />
+
+#### How To Fix?
+- The driver was not installed correctly. Retry it or open an issue.
+- Have you connected and started the treadmill?
+- Are the foottrackers on and have enough energy?
+- Is the Omni Connect app really closed (close via tray icon)
+  - <img width="406" height="162" alt="image" src="https://github.com/user-attachments/assets/3c76724f-ee5e-4e5c-8e66-928b1ff9092d" />
+
+
+### You see the treadmill icon but there is no movement in the game?
+
+Open "settings" from the menu:
+
+<img width="314" height="396" alt="image" src="https://github.com/user-attachments/assets/691f9352-3593-42cb-99a5-e69de2452c6b" />
+
+Navigate to "controller" and "controller testing"
+
+<img width="799" height="629" alt="image" src="https://github.com/user-attachments/assets/e767e3fc-6955-4b3e-ac43-dd3df5e24e1e" />
+
+Switch to the #/USER/TREADMILL device and "walk" in the air with your boots.
+You should see the blue dot move forward:
+
+<img width="800" height="631" alt="image" src="https://github.com/user-attachments/assets/dd2276ae-efeb-492f-8a15-d3711df99744" />
+
+Still not working?
+- Ensure the Omni Connect app is really closed (close via tray icon)
+  - <img width="406" height="162" alt="image" src="https://github.com/user-attachments/assets/3c76724f-ee5e-4e5c-8e66-928b1ff9092d" />
+
+
+
 ## Overview (for developers)
 
 **TreadmillSteamVR** is a native C++ SteamVR driver that bridges the Virtuix Omni Treadmill's motion sensors with SteamVR's input and tracking systems. By dynamically loading the OmniBridge .NET assembly, it captures real-time motion data (ring angle, step count, gamepad input) and transforms it into:
