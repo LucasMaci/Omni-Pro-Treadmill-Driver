@@ -48,7 +48,7 @@ The OmniBridge.dll is needed by the SteamVR driver, but currently is not autodet
 }
 ```
 
-## Overview
+## Overview (for developers)
 
 **TreadmillSteamVR** is a native C++ SteamVR driver that bridges the Virtuix Omni Treadmill's motion sensors with SteamVR's input and tracking systems. By dynamically loading the OmniBridge .NET assembly, it captures real-time motion data (ring angle, step count, gamepad input) and transforms it into:
 
