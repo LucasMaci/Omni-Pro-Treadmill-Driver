@@ -123,7 +123,9 @@ struct VRControllerState001_t {
 typedef VRControllerState001_t VRControllerState_t;
 
 // Button masks
+#define k_EButton_Grip              2
 #define k_EButton_SteamVR_Touchpad  32
+#define k_EButton_SteamVR_Trigger   33
 #define k_EButton_Axis0             32
 #define k_EButton_Axis1             33
 
@@ -137,12 +139,42 @@ typedef uint32_t TrackedDeviceIndex_t;
 #define k_unTrackedDeviceIndex_Hmd          0
 #define k_unTrackedDeviceIndexInvalid       0xFFFFFFFF
 
+// Controller roles (minimal)
+enum ETrackedControllerRole {
+    TrackedControllerRole_Invalid = 0,
+    TrackedControllerRole_LeftHand = 1,
+    TrackedControllerRole_RightHand = 2
+};
+
+// HmdMatrix34_t - 3x4 row-major matrix for tracking
+struct HmdMatrix34_t {
+    float m[3][4];
+};
+
+// TrackedDevicePose_t - pose returned by GetDeviceToAbsoluteTrackingPose
+#pragma pack(push, 8)
+struct TrackedDevicePose_t {
+    HmdMatrix34_t mDeviceToAbsoluteTracking;
+    float vVelocity[3];
+    float vAngularVelocity[3];
+    int eTrackingResult;  // ETrackingResult
+    bool bPoseIsValid;
+    bool bDeviceIsConnected;
+};
+#pragma pack(pop)
+
 // ============================================================================
 // IVRSYSTEM WRAPPER
 // ============================================================================
 
 // Wrap the IVRSystem interface to inject treadmill data into legacy input
 void* WrapIVRSystem(void* realInterface);
+
+// Wrap the IVRCompositor interface to handle frame-synced yaw calibration
+void* WrapIVRCompositor(void* realInterface);
+
+// Configure calibration persistence path (called during initialization)
+void SetCalibrationPath(const std::wstring& path);
 
 // IVRSystem virtual function indices (from OpenVR SDK)
 namespace IVRSystemVTable {
@@ -191,6 +223,15 @@ namespace IVRSystemVTable {
         ShouldApplicationPause = 41,
         ShouldApplicationReduceRenderingWork = 42,
         // ... more functions
+    };
+}
+
+// IVRCompositor virtual function indices (from OpenVR SDK)
+namespace IVRCompositorVTable {
+    enum {
+        SetTrackingSpace = 0,
+        GetTrackingSpace = 1,
+        WaitGetPoses = 2
     };
 }
 

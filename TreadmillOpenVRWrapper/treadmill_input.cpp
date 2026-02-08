@@ -56,18 +56,22 @@ void OmniBridge::OnOmniData(float ringAngle, int gamePadX, int gamePadY) {
     float smoothedX = ApplySmoothing(prevX, x, g_config.smoothing);
     float smoothedY = ApplySmoothing(prevY, y, g_config.smoothing);
     
+    float yaw = ringAngle + g_config.yawOffsetDegrees;
+    if (yaw < 0.0f) yaw += 360.0f;
+    if (yaw >= 360.0f) yaw -= 360.0f;
+
     g_treadmillState.x.store(smoothedX);
     g_treadmillState.y.store(smoothedY);
-    g_treadmillState.yaw.store(ringAngle);
+    g_treadmillState.yaw.store(yaw);
     g_treadmillState.lastUpdateTime.store(timestamp);
     g_treadmillState.updateCount.fetch_add(1);
     g_treadmillState.active.store(true);
     
-    // Trace log occasionally (debug only)
-    if (g_treadmillState.updateCount.load() % 100 == 0) {
-        LogTrace("Treadmill: X=%.3f Y=%.3f Yaw=%.1f", 
-            g_treadmillState.x.load(), g_treadmillState.y.load(), ringAngle);
-    }
+    // Trace log every 10 updates for more data (debug only)
+    //if (g_treadmillState.updateCount.load() % 10 == 0) {
+    //    LogTrace("Treadmill: X=%.3f Y=%.3f Yaw=%.1f", 
+    //        g_treadmillState.x.load(), g_treadmillState.y.load(), ringAngle);
+    //}
 }
 
 bool OmniBridge::Initialize(const std::wstring& dllPath, const std::string& comPort, int baudRate) {
@@ -190,6 +194,7 @@ Config Config::Load(const std::wstring& jsonPath) {
             else if (key == "speedMultiplier") config.speedMultiplier = std::stof(value);
             else if (key == "deadzone") config.deadzone = std::stof(value);
             else if (key == "smoothing") config.smoothing = std::stof(value);
+            else if (key == "yawOffsetDegrees") config.yawOffsetDegrees = std::stof(value);
             else if (key == "targetControllerIndex") config.targetControllerIndex = std::stoi(value);
             else if (key == "inputMode") {
                 if (value == "override") config.inputMode = InputMode::Override;

@@ -1,18 +1,19 @@
 {
-    "enabled": true,
-    "comPort": "COM3",
-    "baudRate": 115200,
-    "speedMultiplier": 3.0,
-    "deadzone": 0.1,
-    "smoothing": 0.3,
-    "targetControllerIndex": 3,
-    "inputMode": "smart",
-    "actionPatterns": [
-        "*move*",
-        "*locomotion*",
-        "*walk*",
-        "*thumbstick*",
-        "/actions/*/in/Move"
-    ],
-    "debugLog": true
+  "enabled": true,
+  "comPort": "COM3",
+  "baudRate": 115200,
+  "yawOffsetDegrees": 0.0,
+  "speedMultiplier": 3.5,
+  "deadzone": 0.05,
+  "smoothing": 0.1,
+  "targetControllerIndex": 3,
+  "inputMode": "smart",
+  "actionPatterns": [
+    "*move*",
+    "*locomotion*",
+    "*walk*",
+    "*thumbstick*",
+    "/actions/*/in/Move"
+  ],
+  "debugLog": true
 }

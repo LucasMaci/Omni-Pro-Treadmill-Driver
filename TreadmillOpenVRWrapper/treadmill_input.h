@@ -62,6 +62,7 @@ struct Config {
     float speedMultiplier = 1.5f;
     float deadzone = 0.1f;
     float smoothing = 0.3f;
+    float yawOffsetDegrees = 0.0f; // Offset der Treadmill-0° relativ zur HMD-0°
     
     // Target controller for input injection (-1 = all controllers, specific index = only that controller)
     // For Oculus: Left controller is typically index 1 or 3, Right is 2 or 4

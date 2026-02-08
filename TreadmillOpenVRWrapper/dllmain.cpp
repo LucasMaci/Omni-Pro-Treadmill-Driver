@@ -41,20 +41,26 @@ static std::wstring GetModuleDirectory(HMODULE hModule) {
 }
 
 static bool InitializeWrapper() {
-    if (g_initialized) return true;
+if (g_initialized) return true;
     
-    std::wstring moduleDir = GetModuleDirectory(g_thisModule);
+std::wstring moduleDir = GetModuleDirectory(g_thisModule);
     
-    // Initialize logging
-    g_config.logPath = moduleDir + L"\\treadmill_wrapper.log";
-    InitLogging(g_config.logPath);
+// Initialize logging to TEMP folder (persists after MO2/RootBuilder cleanup)
+wchar_t tempPath[MAX_PATH];
+GetTempPathW(MAX_PATH, tempPath);
+g_config.logPath = std::wstring(tempPath) + L"treadmill_wrapper.log";
+InitLogging(g_config.logPath);
     
-    LogInfo("TreadmillOpenVRWrapper Initializing");
-    LogDebug("Module directory: %ls", moduleDir.c_str());
+LogInfo("TreadmillOpenVRWrapper Initializing");
+LogDebug("Module directory: %ls", moduleDir.c_str());
     
     // Load configuration
     std::wstring configPath = moduleDir + L"\\treadmill_config.json";
     g_config = Config::Load(configPath);
+
+    // Load calibration state (persistent yaw offset)
+    std::wstring calibrationPath = moduleDir + L"\\treadmill_calibration.json";
+    SetCalibrationPath(calibrationPath);
     
     // Configure logger based on config
     Logger::SetDebugEnabled(g_config.debugLog);
@@ -259,6 +265,12 @@ __declspec(dllexport) void* VR_CALLTYPE VR_GetGenericInterface(const char* pchIn
         if (iface && pchInterfaceVersion && strstr(pchInterfaceVersion, "IVRInput")) {
             LogDebug("Wrapping IVRInput interface");
             return WrapIVRInput(iface);
+        }
+
+        // Wrap IVRCompositor for frame-synced yaw calibration
+        if (iface && pchInterfaceVersion && strstr(pchInterfaceVersion, "IVRCompositor")) {
+            LogDebug("Wrapping IVRCompositor interface");
+            return WrapIVRCompositor(iface);
         }
         
         return iface;
