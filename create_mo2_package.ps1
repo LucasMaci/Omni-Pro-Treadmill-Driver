@@ -18,8 +18,8 @@ Write-Host "========================================" -ForegroundColor Cyan
 # Paths
 $wrapperDll = "x64\Release\TreadmillOpenVRWrapper.dll"
 $omniBridgeDll = "OmniBridge\publish\OmniBridge.dll"
-$configFile = "..\TreadmillOpenVRWrapper\treadmill_config.json"
-$readmeSource = "..\TreadmillOpenVRWrapper\README.md"
+$configFile = "TreadmillOpenVRWrapper\treadmill_config.json"
+$readmeSource = "TreadmillOpenVRWrapper\README.md"
 
 # Check files exist
 $missingFiles = @()

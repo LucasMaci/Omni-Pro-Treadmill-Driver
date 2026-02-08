@@ -146,6 +146,7 @@
     <None Include="create_mo2_package.ps1" />
     <None Include="deploy_debug_to_mo2.ps1" />
     <None Include="deploy_omnibridge.ps1" />
+    <None Include="deploy_steamvr_driver.ps1" />
     <None Include="deploy_to_mo2.ps1" />
     <None Include="README.md" />
     <None Include="setup_treadmill_wrapper.ps1" />

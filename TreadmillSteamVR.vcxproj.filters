@@ -96,6 +96,7 @@
     <None Include="setup_treadmill_wrapper.ps1" />
     <None Include="deploy_debug_to_mo2.ps1" />
     <None Include=".github\copilot-instructions.md" />
+    <None Include="deploy_steamvr_driver.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\..\Modlists\MGON\mods\VRIK Rift-Index-WMR Controller Bindings - Grip to Interact\Interface\Controls\PC\controlmapvr.txt">
