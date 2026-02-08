@@ -19,7 +19,7 @@ A SteamVR driver for the Virtuix Omni Treadmill that translates real-world tread
    │   └── input/treadmill_profile.json
    └── driver.vrdrivermanifest
    ```
-5. Configure **File**: `treadmill/resources/settings/default.vrsettings` as described below. (at least set "com_port" and verify "omnibridge_dll_path")
+5. Configure **File**: `treadmill/resources/settings/default.vrsettings` as described below. (at least check "com_port")
 6. Restart SteamVR
 7. Check driver console for connection status
 
@@ -32,16 +32,10 @@ You find it by opening "devicemanager" and check what your "Omni Serial Command 
 
 <img width="637" height="408" alt="image" src="https://github.com/user-attachments/assets/79a01826-f79b-48d5-b233-0f46836f6a77" />
 
-#### Omni Bridge DLL Path
-The OmniBridge.dll is needed by the SteamVR driver, but currently is not autodetected. So set it manualy under "omnibridge_dll_path".
-**Take care that the path must be absolut and you need to put double backslashes instead of single backslahses**
-
-
 ```json
 {
   "driver_treadmill": {
     "com_port": "COM3",
-    "omnibridge_dll_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR\\drivers\\treadmill\\bin\\win64\\OmniBridge.dll",
     "debug": true,
     "speed_factor": 1.0,
     "smoothing_factor": 0.3
