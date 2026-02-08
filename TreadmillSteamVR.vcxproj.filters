@@ -95,8 +95,6 @@
     <None Include="create_mo2_package.ps1" />
     <None Include="setup_treadmill_wrapper.ps1" />
     <None Include="deploy_debug_to_mo2.ps1" />
-    <None Include="analyze_yaw_variants.ps1" />
-    <None Include="test_hmd_yaw_formula.ps1" />
     <None Include=".github\copilot-instructions.md" />
   </ItemGroup>
   <ItemGroup>
