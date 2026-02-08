@@ -48,15 +48,25 @@ public class MinimalOmniReader
             reader._baudRate = baudRate;
             reader._omniMode = omniMode;
             
-            // Try shared memory consumer mode first (non-blocking, fail-safe)
-            if (reader.TryConnectAsConsumer())
+            // Try shared memory consumer mode first with retries
+            // (Master might not be ready yet if we start before SteamVR driver)
+            for (int attempt = 1; attempt <= 5; attempt++)
             {
-                Logger.Info("Running as CONSUMER (reading from shared memory)");
-                return true;
+                if (reader.TryConnectAsConsumer())
+                {
+                    Logger.Info("Running as CONSUMER (reading from shared memory)");
+                    return true;
+                }
+                
+                if (attempt < 5)
+                {
+                    Logger.Debug($"Consumer connect attempt {attempt}/5 failed, waiting 500ms...");
+                    Thread.Sleep(500);
+                }
             }
             
-            // No master available or shared memory failed - become master with direct COM port
-            Logger.Debug("No master found, initializing as MASTER (direct COM port)");
+            // No master available after retries - become master with direct COM port
+            Logger.Debug("No master found after 5 attempts, initializing as MASTER (direct COM port)");
             return reader.InitializeDirectMode(comPort, omniMode, baudRate);
         }
         catch (Exception ex)
