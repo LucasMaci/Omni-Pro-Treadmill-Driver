@@ -1,9 +1,15 @@
 #include "TreadmillServerDriver.h"
 #include "TreadmillDevice.h"
 #include <mutex>
+#include <Shlwapi.h>  // For PathRemoveFileSpecW
+
+#pragma comment(lib, "Shlwapi.lib")
 
 extern void Log(const char* fmt, ...);
 extern void OnOmniData(float ringAngle, int gamePadX, int gamePadY);
+
+// Global handle to our own DLL (set in DllMain)
+extern HMODULE g_hModule;
 
 vr::EVRInitError TreadmillServerDriver::Init(vr::IVRDriverContext* pDriverContext) {
     try {
@@ -22,41 +28,46 @@ vr::EVRInitError TreadmillServerDriver::Init(vr::IVRDriverContext* pDriverContex
         
         Log("treadmill: Init called");
 
-        // Load DLL path from settings (default: hardcoded path)
-        char dllPath[512];
-        strcpy_s(dllPath, sizeof(dllPath), "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR\\drivers\\treadmill\\bin\\win64\\OmniBridge.dll");
+        // Automatically find OmniBridge.dll in the same directory as this driver
+        wchar_t wDllPath[512] = {0};
         
-        if (vr::VRSettings()) {
-            vr::EVRSettingsError se = vr::VRSettingsError_None;
-            vr::VRSettings()->GetString(
-                "driver_treadmill", 
-                "omnibridge_dll_path", 
-                dllPath, 
-                sizeof(dllPath), 
-                &se
-            );
-            if (se != vr::VRSettingsError_None) {
-                Log("treadmill: omnibridge_dll_path not found in settings, using default path");
-                strcpy_s(dllPath, sizeof(dllPath), "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR\\drivers\\treadmill\\bin\\win64\\OmniBridge.dll");
-            }
+        if (g_hModule) {
+            // Get the path to our own DLL
+            GetModuleFileNameW(g_hModule, wDllPath, 512);
+            
+            // Remove the filename, leaving just the directory
+            PathRemoveFileSpecW(wDllPath);
+            
+            // Append OmniBridge.dll
+            wcscat_s(wDllPath, L"\\OmniBridge.dll");
+            
+            Log("treadmill: Looking for OmniBridge.dll relative to driver");
+        } else {
+            // Fallback to hardcoded path if g_hModule is not set
+            wcscpy_s(wDllPath, L"C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR\\drivers\\treadmill\\bin\\win64\\OmniBridge.dll");
+            Log("treadmill: Using fallback path for OmniBridge.dll");
         }
-        
-        // Convert char* to wchar_t* for LoadLibrary
-        wchar_t wDllPath[512];
-        MultiByteToWideChar(CP_UTF8, 0, dllPath, -1, wDllPath, 512);
 
         // Load OmniBridge.dll
-        omniReaderLib = LoadLibrary(wDllPath);
+        omniReaderLib = LoadLibraryW(wDllPath);
 
         if (!omniReaderLib) {
             DWORD err = GetLastError();
             char buf[256];
             FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, buf, sizeof(buf), nullptr);
-            Log("treadmill: LoadLibrary failed for '%s': %s", dllPath, buf);
+            
+            // Convert wDllPath to char for logging
+            char dllPathA[512];
+            WideCharToMultiByte(CP_UTF8, 0, wDllPath, -1, dllPathA, sizeof(dllPathA), nullptr, nullptr);
+            
+            Log("treadmill: LoadLibrary failed for '%s': %s", dllPathA, buf);
             return vr::VRInitError_Driver_Failed;
         }
         
-        Log("treadmill: OmniBridge.dll loaded from: %s", dllPath);
+        // Log success
+        char dllPathA[512];
+        WideCharToMultiByte(CP_UTF8, 0, wDllPath, -1, dllPathA, sizeof(dllPathA), nullptr, nullptr);
+        Log("treadmill: OmniBridge.dll loaded from: %s", dllPathA);
 
         // Load all functions with detailed debugging
         pfnCreate = (PFN_OmniReader_Create)GetProcAddress(omniReaderLib, "OmniReader_Create");

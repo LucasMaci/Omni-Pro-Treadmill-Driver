@@ -6,8 +6,7 @@
     "debug": true,
     "mytracker_model_number": "omni_treadmill 1",
     "speed_factor": 3.0,
-    "smoothing_factor": 1.0,
-    "com_port": "COM3",
-    "omnibridge_dll_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR\\drivers\\treadmill\\bin\\win64\\OmniBridge.dll"
+    "smoothing_factor": 0.3,
+    "com_port": "COM3"
   }
 }
